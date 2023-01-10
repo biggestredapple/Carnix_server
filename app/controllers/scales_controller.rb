@@ -2,6 +2,8 @@ class ScalesController < ApplicationController
   require 'csv'
 
   def index
+    @scales = Scale.all
+    render json: @scales
   end
 
   def upload
