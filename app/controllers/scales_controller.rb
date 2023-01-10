@@ -7,11 +7,14 @@ class ScalesController < ApplicationController
   end
 
   def upload
-    # (params[:file].path || []).each do |file|
+    # puts params[:file]
+
+    # file_params.each do |file|
+    #   puts file
     #   parser_method(file.path)
     # end
-    file_path = params[:file].path
-    parser_method(file_path)
+    # file_path = file_params
+    parser_method(file_params)
     response = {
       :message => "success"
     }
@@ -30,5 +33,10 @@ class ScalesController < ApplicationController
       puts row[1]
     end
   end
+
+  private 
+    def file_params
+      params.require(:file).path
+    end
 
 end
