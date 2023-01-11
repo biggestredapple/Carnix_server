@@ -25,13 +25,6 @@ class ScalesController < ApplicationController
   end
 
   def upload
-    # puts params[:file]
-
-    # file_params.each do |file|
-    #   puts file
-    #   parser_method(file.path)
-    # end
-    # file_path = file_params
     parser_method(file_params)
     response = {
       :message => "success"
@@ -62,7 +55,6 @@ class ScalesController < ApplicationController
       scale.unit =row[3]
       scale.category = row[1].first(3)
       scale.save
-      puts row[1]
     end
   end
 
