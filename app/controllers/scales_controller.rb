@@ -2,7 +2,11 @@ class ScalesController < ApplicationController
   require 'csv'
 
   def index
-    @scales = Scale.all
+    if params[:category] === "all"
+      @scales = Scale.all
+    else
+      @scales = Scale.where(category: params[:category]).order(:date)
+    end
     render json: @scales
   end
 
@@ -19,6 +23,17 @@ class ScalesController < ApplicationController
       :message => "success"
     }
     render json: response;
+  end
+
+  def categories
+    @scales = Scale.all
+    categories = []
+    @scales.each do |scale|
+      if !categories.include? scale.category
+        categories.push(scale.category)
+      end
+    end
+    render json: categories
   end
 
   def parser_method(file_path)
