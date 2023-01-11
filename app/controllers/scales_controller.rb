@@ -7,7 +7,21 @@ class ScalesController < ApplicationController
     else
       @scales = Scale.where(category: params[:category]).order(:date)
     end
-    render json: @scales
+    sum = 0
+    @scales.each do |scale|
+      if scale.unit === "kilograms"
+        sum += scale.weight
+      elsif scale.unit === "grams"
+        sum += scale.weight / 1000
+      elsif scale.unit === "pounds"
+        sum += scale.weight * 0.45
+      end
+    end
+    response = {
+      :scales => @scales,
+      :sum => sum
+    }
+    render json: response;
   end
 
   def upload
@@ -33,7 +47,10 @@ class ScalesController < ApplicationController
         categories.push(scale.category)
       end
     end
-    render json: categories
+    response = {
+      :categories => categories
+    }
+    render json: response
   end
 
   def parser_method(file_path)
